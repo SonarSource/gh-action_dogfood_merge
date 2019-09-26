@@ -1,0 +1,21 @@
+# action.yml
+name: 'Git octopus'
+author: 'David Rautureau <david.rautureau@sonarsource.com>'
+description: 'Automatically merges branches prefixed with name "dogfood/" into the dogfood branch'
+inputs:
+  dogfood-branch:
+    description: 'The dogfood branch'
+    required: true
+    default: 'dogfood'
+outputs:
+  dogfood-branch:
+    description: 'The dogfood branch'
+  sha1:
+    description: 'The HEAD sha1 of the dogfood branch'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.dogfood-branch }}
+branding:
+  icon: 'git-merge'
