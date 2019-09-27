@@ -1,9 +1,10 @@
 #!/bin/bash
 set -e
 set -o pipefail
-whoami
-cd ~
-ls -al
+
+echo "[user]" > ~/.gitconfig
+echo "	email = sonartech@sonarsource.com" >> ~/.gitconfig
+echo "  name = sonartech" >> ~/.gitconfig
 
 #git clone git@github.com:/${GITHUB_REPOSITORY}.git repo
 echo "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" > tmp.txt
