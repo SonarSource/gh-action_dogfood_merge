@@ -9,8 +9,9 @@ RUN wget https://github.com/lesfurets/git-octopus/archive/v${GIT_OCTOPUS_VERSION
     && tar xvf *.tar.gz \
     && cd git-octopus-${GIT_OCTOPUS_VERSION} \
     && make install \
-    && rm -Rf *
+    && rm -Rf * \
+    && mkdir /root/.ssh
 
 COPY entrypoint.sh /entrypoint.sh
-
+COPY .gitconfig /root/.gitconfig
 ENTRYPOINT ["/entrypoint.sh"]
