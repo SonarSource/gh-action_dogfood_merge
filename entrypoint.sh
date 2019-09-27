@@ -3,7 +3,7 @@ set -e
 set -o pipefail
 
 #git clone git@github.com:/${GITHUB_REPOSITORY}.git repo
-git clone https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git repo
+git clone https://${TOKEN}@github.com/${GITHUB_REPOSITORY}.git repo
 cd repo
 
 # Fetch conflicts resolutions
