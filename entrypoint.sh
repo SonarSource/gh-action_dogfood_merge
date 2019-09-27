@@ -3,6 +3,8 @@ set -e
 set -o pipefail
 
 #git clone git@github.com:/${GITHUB_REPOSITORY}.git repo
+echo "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" > tmp.txt
+cat tmp.txt
 git clone https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git repo
 cd repo
 
