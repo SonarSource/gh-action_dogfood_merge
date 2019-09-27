@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 set -o pipefail
+whoami
+cd ~
+ls -al
 
 #git clone git@github.com:/${GITHUB_REPOSITORY}.git repo
 echo "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" > tmp.txt
