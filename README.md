@@ -1,12 +1,12 @@
 # Git octopus action
 
-This action automatically merges branches prefixed with name "dogfood/" into the "dogfood" branch or the branch specified as input.
+This action automatically merges branches prefixed with name "dogfood/" into the "dogfood-automerge" branch or the branch specified as input.
 
 ## Inputs
 
 ### `dogfood-branch`
 
-**Required** The name of the dogfood branch. Default `dogfood`.
+**Required** The name of the dogfood branch. Default `dogfood-automerge`.
 
 ## Outputs
 
@@ -20,7 +20,7 @@ The HEAD sha1 of the dogfood branch.
 
 ## Example usage
 
-uses: drautureau-sonarsource/gh-action_git-octopus
+uses: SonarSource/gh-action_git-octopus
 secrets = ["GITHUB_TOKEN"]
 with:
-  dogfood-branch: 'dogfood-on-sonarcloud'
+  dogfood-branch: 'dogfood-on-next'

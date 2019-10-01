@@ -6,7 +6,7 @@ inputs:
   dogfood-branch:
     description: 'The dogfood branch'
     required: true
-    default: 'dogfood'
+    default: 'dogfood-automerge'
 outputs:
   dogfood-branch:
     description: 'The dogfood branch'
