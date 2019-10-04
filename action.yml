@@ -7,10 +7,6 @@ inputs:
     description: 'The dogfood branch'
     required: true
     default: 'dogfood-automerge'
-  delete-branches:
-    description: 'Delete dogfood branches whose original branch does not exist (because merged and deleted)'
-    required: true
-    default: '0'
 outputs:
   dogfood-branch:
     description: 'The dogfood branch'

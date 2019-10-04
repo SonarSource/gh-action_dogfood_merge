@@ -8,9 +8,6 @@ This action automatically merges branches prefixed with name "dogfood/" into the
 
 **Required** The name of the dogfood branch. Default `dogfood-automerge`.
 
-### `delete-branches`
-**Required**  If set to `1`, delete dogfood branches whose original branch does not exist (because merged and deleted)'. Default `0`.
-
 ## Outputs
 
 ### `dogfood-branch`
@@ -28,4 +25,3 @@ env:
   GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 with:
   dogfood-branch: 'dogfood-on-next'
-  delete-branches: '1'
