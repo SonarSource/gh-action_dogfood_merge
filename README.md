@@ -20,8 +20,10 @@ The HEAD sha1 of the dogfood branch.
 
 ## Example usage
 
+```
 uses: SonarSource/gh-action_git-octopus@master
 env:
   GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 with:
   dogfood-branch: 'dogfood-on-next'
+```
