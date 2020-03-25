@@ -21,6 +21,9 @@ git for-each-ref --shell --format='b=%(refname:short); f=${b#origin/dogfood/}; g
 # Merge all dogfood branches
 git octopus origin/dogfood/* origin/master
 
+sha1=$(git rev-parse HEAD)
+echo "SHA1 before push = ${sha1}"
+
 # Push to the dogfood branch
 git diff -s --exit-code HEAD origin/$1 || git push origin +HEAD:$1
 
