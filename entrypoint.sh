@@ -6,10 +6,7 @@ echo "[user]" > ~/.gitconfig
 echo "	email = sonartech@sonarsource.com" >> ~/.gitconfig
 echo "  name = sonartech" >> ~/.gitconfig
 
-#git clone git@github.com:/${GITHUB_REPOSITORY}.git repo
-echo "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" > tmp.txt
-cat tmp.txt
-git clone https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git repo
+git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git repo
 cd repo
 
 # Fetch conflicts resolutions
