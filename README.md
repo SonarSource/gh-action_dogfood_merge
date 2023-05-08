@@ -21,7 +21,7 @@ The HEAD sha1 of the dogfood branch.
 ## Example usage
 
 ```
-uses: SonarSource/gh-action_dogfood_merge@1
+uses: SonarSource/gh-action_dogfood_merge@v1
 env:
   GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 with:
