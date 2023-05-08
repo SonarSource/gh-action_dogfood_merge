@@ -1,4 +1,4 @@
-# Git octopus action
+# gh-action_dogfood_merge
 
 This action automatically merges branches prefixed with name "dogfood/" into the "dogfood-automerge" branch or the branch specified as input.
 
