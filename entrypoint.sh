@@ -21,5 +21,5 @@ git octopus origin/dogfood/* origin/master
 # Push to the dogfood branch
 git diff -s --exit-code HEAD origin/$1 || git push origin +HEAD:$1
 
-echo ::set-output name=dogfood-branch::$1
-echo ::set-output name=sha1::$(git rev-parse HEAD)
+echo "name=dogfood-branch::$1" >> "$GITHUB_OUTPUT"
+echo "name=sha1::$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
