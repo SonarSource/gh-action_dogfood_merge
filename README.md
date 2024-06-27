@@ -23,7 +23,7 @@ The HEAD sha1 of the dogfood branch.
 ```
 uses: SonarSource/gh-action_dogfood_merge@v1
 env:
-  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 with:
   dogfood-branch: 'dogfood-on-next'
 ```
