@@ -50,8 +50,6 @@ jobs:
     steps:
       - name: Merge dogfood branches
         uses: SonarSource/gh-action_dogfood_merge@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         with:
           dogfood-branch: 'dogfood-on-peach'
 ```

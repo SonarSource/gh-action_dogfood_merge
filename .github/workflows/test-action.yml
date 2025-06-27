@@ -53,8 +53,6 @@ jobs:
 
     - name: Run Merge Dogfood Branches Action
       id: dogfood
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
       uses: ./
 
     - name: Verify action outputs
