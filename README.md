@@ -1,29 +1,57 @@
-# gh-action_dogfood_merge
+# Merge Dogfood Branches Action
 
-This action automatically merges branches prefixed with name "dogfood/" into the "dogfood-automerge" branch or the branch specified as input.
+This action automatically merges branches prefixed with `dogfood/` into the `dogfood-automerge` branch or the branch specified as input.
+
+## Important Notes
+
+⚠️ **This action performs a force push to the target dogfood branch, completely replacing its history based on the dogfood/ branches.**
+
+⚠️ **Branch Naming Requirement**: The name of a dogfood branch should match the name of an existing branch prefixed with `dogfood/`; otherwise it will be automatically deleted. As an example, to dogfood a branch named `SONARIAC-XYZ` you need to push two branches to remotes: `SONARIAC-XYZ` and `dogfood/SONARIAC-XYZ`. This is done intentionally to allow developers to continue working on their branch, in this case `SONARIAC-XYZ` while dogfooding `dogfood/SONARIAC-XYZ`.
 
 ## Inputs
 
 ### `dogfood-branch`
 
-**Required** The name of the dogfood branch. Default `dogfood-automerge`.
+**Required** The name of the dogfood branch. Defaults to `dogfood-automerge`.
 
 ## Outputs
 
 ### `dogfood-branch`
 
-The dogfood branch.
+The dogfood branch that was updated.
 
 ### `sha1`
 
 The HEAD sha1 of the dogfood branch.
 
-## Example usage
+## Recommended permissions
 
-```
-uses: SonarSource/gh-action_dogfood_merge@v1
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-with:
-  dogfood-branch: 'dogfood-on-next'
+While it's possible to use a Vault-generated token, for simplicity, it's recommended to use the default GitHub token
+with the `contents: write` permission. For implementation details, see the example below.
+
+## Example workflow
+
+```yaml
+name: Dogfood merge
+on:
+  # Trigger on pushes to the default and dogfood branches
+  push:
+    branches:
+      - master # replace with your repository's default branch
+      - 'dogfood/**'
+  delete: # Trigger on deletion of dogfood branches, see `if` condition below
+jobs:
+  dogfood_merge:
+    runs-on: sonar-runner-large # SonarSource/gh-action_dogfood_merge uses DinD
+    name: Update dogfood branch
+    permissions:
+      contents: write
+    if: github.event_name != 'delete' || startsWith(github.event.ref, 'dogfood/')
+    steps:
+      - name: Merge dogfood branches
+        uses: SonarSource/gh-action_dogfood_merge@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          dogfood-branch: 'dogfood-on-peach'
 ```
