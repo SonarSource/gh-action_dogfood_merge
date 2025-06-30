@@ -2,6 +2,12 @@
 set -e
 set -o pipefail
 
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+  echo "::notice file=$GITHUB_WORKFLOW_REF::Please use the github-token input parameter instead of passing GITHUB_TOKEN as an environment variable."
+fi
+DOGFOOD_BRANCH=$1
+: ${GITHUB_TOKEN:=$2}
+
 echo "[user]" > ~/.gitconfig
 echo "	email = sonartech@sonarsource.com" >> ~/.gitconfig
 echo "  name = sonartech" >> ~/.gitconfig
@@ -18,8 +24,10 @@ git for-each-ref --shell --format='b=%(refname:short); f=${b#origin/dogfood/}; g
 # Merge all dogfood branches
 git octopus origin/dogfood/* origin/master
 
-# Push to the dogfood branch
-git diff -s --exit-code HEAD origin/$1 || git push origin +HEAD:$1
+# Force push to the dogfood branch
+if ! git diff -s --exit-code HEAD origin/$DOGFOOD_BRANCH; then
+  git push origin +HEAD:$DOGFOOD_BRANCH
+fi
 
-echo "dogfood-branch=$1" >> "$GITHUB_OUTPUT"
+echo "dogfood-branch=$DOGFOOD_BRANCH" >> "$GITHUB_OUTPUT"
 echo "sha1=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"

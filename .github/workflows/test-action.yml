@@ -1,0 +1,58 @@
+name: Test Merge Dogfood Branches Action
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  test-action:
+    runs-on: sonar-runner-large
+    name: Test Merge Dogfood Branches Action
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Create dogfood branch
+      id: create-dogfood-branch
+      run: ./test.sh
+
+    - name: Run Merge Dogfood Branches Action
+      id: dogfood
+      uses: ./
+
+    - name: Verify action outputs
+      run: |
+        echo "Dogfood branch: ${{ steps.dogfood.outputs.dogfood-branch }}"
+        echo "SHA1: ${{ steps.dogfood.outputs.sha1 }}"
+
+        # Verify outputs are not empty
+        if [[ -z "${{ steps.dogfood.outputs.dogfood-branch }}" ]]; then
+          echo "ERROR: dogfood-branch output is empty"
+          exit 1
+        fi
+
+        if [[ -z "${{ steps.dogfood.outputs.sha1 }}" ]]; then
+          echo "ERROR: sha1 output is empty"
+          exit 1
+        fi
+
+        echo "✅ All outputs are valid"
+
+    - name: Check dogfood branch exists
+      run: |
+        if git ls-remote --heads origin ${{ steps.dogfood.outputs.dogfood-branch }}; then
+          echo "✅ Dogfood branch exists on remote"
+        else
+          echo "❌ Dogfood branch does not exist on remote"
+          exit 1
+        fi
+
+    - name: Delete dogfood branch
+      run: |
+        echo "Deleting dogfood branch"
+        git push origin --delete ${{ steps.create-dogfood-branch.outputs.dogfood-branch }} || echo "Dogfood branch already deleted or doesn't exist"
