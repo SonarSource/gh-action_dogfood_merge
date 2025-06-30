@@ -2,15 +2,17 @@
 set -e
 set -o pipefail
 
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+    echo "::notice ::The GITHUB_TOKEN environment variable is deprecated. Please use the github-token input parameter instead."
+fi
 DOGFOOD_BRANCH=$1
-GH_TOKEN=$2
+: ${GITHUB_TOKEN:=$2}
 
 echo "[user]" > ~/.gitconfig
 echo "	email = sonartech@sonarsource.com" >> ~/.gitconfig
 echo "  name = sonartech" >> ~/.gitconfig
 
-# Default to GITHUB_TOKEN environment variable, fallback to GH_TOKEN parameter
-git clone https://x-access-token:${GITHUB_TOKEN:-$GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git repo
+git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git repo
 cd repo
 
 # Fetch conflicts resolutions
@@ -23,7 +25,9 @@ git for-each-ref --shell --format='b=%(refname:short); f=${b#origin/dogfood/}; g
 git octopus origin/dogfood/* origin/master
 
 # Force push to the dogfood branch
-git diff -s --exit-code HEAD origin/$DOGFOOD_BRANCH || git push origin +HEAD:$DOGFOOD_BRANCH
+if ! git diff -s --exit-code HEAD origin/$DOGFOOD_BRANCH; then
+  git push origin +HEAD:$DOGFOOD_BRANCH
+fi
 
 echo "dogfood-branch=$DOGFOOD_BRANCH" >> "$GITHUB_OUTPUT"
 echo "sha1=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
