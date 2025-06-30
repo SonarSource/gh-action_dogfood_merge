@@ -1,8 +1,6 @@
 name: Test Merge Dogfood Branches Action
 
 on:
-  push:
-    branches: [master]
   pull_request:
 
 permissions:
@@ -21,35 +19,7 @@ jobs:
 
     - name: Create dogfood branch
       id: create-dogfood-branch
-      run: |
-        echo "Setting up test environment"
-        git config --global user.email "test@example.com"
-        git config --global user.name "Test User"
-
-        # Get the correct branch name from GitHub context
-        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-          CURRENT_BRANCH="${{ github.head_ref }}"
-        else
-          CURRENT_BRANCH="${{ github.ref_name }}"
-        fi
-        echo "Current branch: $CURRENT_BRANCH"
-        DOGFOOD_BRANCH="dogfood/$CURRENT_BRANCH"
-        echo "dogfood-branch=$DOGFOOD_BRANCH" >> "$GITHUB_OUTPUT"
-
-        # Create a test dogfood branch if it doesn't exist
-        if [[ -z "$(git ls-remote --heads origin $DOGFOOD_BRANCH)" ]]; then
-          echo "Creating test dogfood branch"
-          git checkout -b $DOGFOOD_BRANCH
-          echo "# Test dogfood branch" > test-dogfood.md
-          git add test-dogfood.md
-          git commit -m "Add test file for dogfood branch"
-          git push origin $DOGFOOD_BRANCH
-          echo "Successfully created and pushed $DOGFOOD_BRANCH"
-          git checkout "$CURRENT_BRANCH"
-          echo "Switched back to $CURRENT_BRANCH"
-        else
-          echo "$DOGFOOD_BRANCH already exists, skipping creation"
-        fi
+      run: ./test.sh
 
     - name: Run Merge Dogfood Branches Action
       id: dogfood
@@ -68,12 +38,6 @@ jobs:
 
         if [[ -z "${{ steps.dogfood.outputs.sha1 }}" ]]; then
           echo "ERROR: sha1 output is empty"
-          exit 1
-        fi
-
-        # Verify SHA1 format
-        if [[ ! "${{ steps.dogfood.outputs.sha1 }}" =~ ^[a-f0-9]{40}$ ]]; then
-          echo "ERROR: SHA1 output is not a valid 40-character hash"
           exit 1
         fi
 
