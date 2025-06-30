@@ -3,7 +3,7 @@ set -e
 set -o pipefail
 
 if [ -n "${GITHUB_TOKEN:-}" ]; then
-    echo "::notice ::The GITHUB_TOKEN environment variable is deprecated. Please use the github-token input parameter instead."
+  echo "::notice file=$GITHUB_WORKFLOW_REF::The GITHUB_TOKEN environment variable is deprecated. Please use the github-token input parameter instead. See https://github.com/SonarSource/gh-action_dogfood_merge/releases/tag/1.1.0"
 fi
 DOGFOOD_BRANCH=$1
 : ${GITHUB_TOKEN:=$2}
