@@ -56,3 +56,18 @@ jobs:
         with:
           dogfood-branch: 'dogfood-on-peach'
 ```
+
+## Versioning
+
+This project follows Semantic Versioning for clear and consistent version numbers.
+
+If you're using Renovate, or prefer to track stable releases, reference the latest published tag. Alternatively, you can use the `v1`
+branch, which is kept in sync with the latest release tag.
+
+⚠️ Do not use the `master` branch for your projects, as it is unstable and can change at any time.
+
+### Releasing
+
+1. Create a new release on [GitHub](https://github.com/SonarSource/gh-action_dogfood_merge/releases) and follow semantic versioning conventions.
+1. After the release is created, run the [Update v-branch workflow](https://github.com/SonarSource/gh-action_dogfood_merge/actions/workflows/update-v-branch.yml).
+This workflow will automatically update the corresponding v-branch (e.x.: `v1`) to point to the new release tag.

@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   test-action:
-    runs-on: sonar-runner-large
+    runs-on: ubuntu-24.04-large
     name: Test Merge Dogfood Branches Action
 
     steps:
