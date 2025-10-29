@@ -45,7 +45,7 @@ on:
   delete: # Trigger on deletion of dogfood branches, see `if` condition below
 jobs:
   dogfood_merge:
-    runs-on: sonar-runner-large # SonarSource/gh-action_dogfood_merge uses DinD
+    runs-on: github-ubuntu-latest-s # SonarSource/gh-action_dogfood_merge uses docker
     name: Update dogfood branch
     permissions:
       contents: write
