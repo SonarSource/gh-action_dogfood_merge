@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   test-action:
-    runs-on: github-ubuntu-latest-s
+    runs-on: warp-custom-ubuntu-24-04
     name: Test Merge Dogfood Branches Action
 
     steps:
