@@ -1,4 +1,4 @@
-FROM buildpack-deps:stable@sha256:047ed8902eafcd4f535df0c7d3867cc29c52b5ec9deb1cb3bd7761be3326b9a1
+FROM buildpack-deps:stable@sha256:aae84bd20debfe55c6f5fcb3289582354f69d73e6ee90694105c1922453ef18a
 LABEL maintainer="Engineering Experience Squad <platform.eng-xp@sonarsource.com>"
 
 ENV GIT_OCTOPUS_VERSION=1.4
